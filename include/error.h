@@ -28,6 +28,8 @@ namespace Net {
 
         void printInfo(const string& info, string tag = "");
 
+        void printInfoBuffer(const string& info, string tag = "");
+
         void printInfoFormal(const string& title, initializer_list<FormalItem> body);
     }
 }

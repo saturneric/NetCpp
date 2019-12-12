@@ -38,5 +38,21 @@ namespace Net {
             }
             printf("----------------------------------<\n<<<\n\n");
         }
+
+        void printInfoBuffer(const string &info, string tag) {
+            printf("\n[DEBUG INFO (BUFFER)]\n");
+            printf(">----------------------------------------------\n");
+            uint8_t *p_i = (uint8_t *) &info[0];
+            uint8_t *p_e = (uint8_t *) &info[info.size()-1];
+            for(int c = 0;p_i < p_e; ++p_i, ++c){
+                if(!(c % 16) && c) printf("\n");
+                printf("%02x ",*p_i);
+
+            }
+            printf("\n");
+            printf("----------------------------------------------<\n");
+            if(tag.size())
+                printf("{ %s }\n\n",tag.data());
+        }
     }
 }

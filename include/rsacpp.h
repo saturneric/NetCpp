@@ -9,6 +9,7 @@
 
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
+#include <openssl/err.h>
 #include <memory>
 
 using namespace std;
@@ -26,31 +27,16 @@ namespace Net {
             this->buffer_size = t.buffer_size;
         }
 
-        void generateKeyPair(){
-            BIGNUM *e = BN_new();
-//            生成一个4bit质数
-            BN_generate_prime_ex(e, 3, 1, nullptr, nullptr, nullptr);
-//            生成一对秘钥
-            RSA_generate_key_ex(key_pair, 2048, e, nullptr);
-            BN_free(e);
-            if(this->key_pair == nullptr) throw runtime_error("key pair generation failed");
-            buffer_size = RSA_size(key_pair);
-        }
+        void generateKeyPair();
 
         void checkKey(){
             if(this->key_pair == nullptr) throw runtime_error("key pair is invalid");
             RSA_check_key(this->key_pair);
         }
 
-        void publicKeyEncrypt(string &data, string &encrypted_data){
-            if(this->key_pair == nullptr) throw runtime_error("key pair is invalid");
-            if(data.size() >= this->getBufferSize()) throw runtime_error("string data is too long");
-//            预分配储存空间
-            encrypted_data.resize(buffer_size);
-//            使用公钥加密
-            RSA_public_encrypt(data.size(), reinterpret_cast<const unsigned char *>(data.c_str()),
-                               reinterpret_cast<unsigned char *>(&data[0]), key_pair, RSA_NO_PADDING);
-        }
+        void publicKeyEncrypt(const string &data, string &encrypted_data);
+
+        void privateKeyDecrypt(string &data, const string& encrypted_data);
 
         uint32_t getBufferSize() const {
             return this->buffer_size;
