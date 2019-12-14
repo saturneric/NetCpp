@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <rsacpp.h>
+#include <rsa_cpp_binding.h>
 
 #include "env.h"
 
@@ -13,8 +13,6 @@ using namespace std;
 GlobalTestEnv *_env;
 
 TEST(RSATest, init_test_1) {
-    _env->rsa->getDefaultRSAMethod();
-
 
 }
 
@@ -34,4 +32,21 @@ TEST(RSATest, prv_decrypt_test_1){
     string data;
     _env->rsa->privateKeyDecrypt(data, _env->rsa_encrypt_data);
     error::printInfo(data, "Decrypt Data");
+    ASSERT_EQ(data, _env->rsa_test_data);
+}
+
+TEST(RSATest, pub_key_get_test_1){
+    _env->pubKey = shared_ptr<RSAPubKey>(new RSAPubKey(_env->rsa->getRSA()));
+
+}
+
+TEST(RSATest, prv_key_get_test_1){
+    _env->prvKey = shared_ptr<RSAPrvKey>(new RSAPrvKey(_env->rsa->getRSA()));
+    ASSERT_EQ(_env->rsa->checkKey(), true);
+    _env->prvKey->printInfo();
+}
+
+TEST(RSATest, prv_key_build_key_chain){
+    RSAKeyChain keyChain(*_env->prvKey);
+    ASSERT_EQ(keyChain.checkKey(), true);
 }

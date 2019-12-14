@@ -1,5 +1,5 @@
 #include "type.h"
-#include "sha256generator.h"
+#include "sha256_cpp_binding.h"
 
 void SHA256Generator::generate() {
     unsigned char hash[SHA256_DIGEST_LENGTH];
