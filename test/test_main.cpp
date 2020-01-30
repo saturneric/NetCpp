@@ -4,9 +4,11 @@
 
 #include <gtest/gtest.h>
 
+#include "rsa_test.cpp"
+
 #include "env.h"
 
-extern GlobalTestEnv *_env;
+GlobalTestEnv *_env;
 
 int main(int argc, char *argv[]){
     ::testing::InitGoogleTest(&argc, argv);

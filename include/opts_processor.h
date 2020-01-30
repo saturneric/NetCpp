@@ -13,7 +13,7 @@ namespace po = boost::program_options;
 
 class OptsProcessor {
 public:
-    OptsProcessor(){
+    OptsProcessor(int argc, char *argv[]){
         desc.add_options()
                 ("help", "help list")
                 ("init", "set up the environment")
@@ -23,7 +23,7 @@ public:
                 ("client", "start a client daemon")
                 ("set", "change an option");
         po::variables_map vm;
-        po::store(po::parse_command_line(ac, av, desc), vm);
+        po::store(po::parse_command_line(argc, argv, desc), vm);
         po::notify(vm);
 
         if (vm.count("help")) {
@@ -40,7 +40,6 @@ public:
     }
 private:
     po::options_description desc("General Net Tools (0.0.1) By Saturn&Eric");
-
 };
 
 

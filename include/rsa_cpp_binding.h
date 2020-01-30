@@ -6,12 +6,14 @@
 #define NET_RSA_CPP_BINDING_H
 
 #include "error.h"
-#include "bignumber.cpp"
+#include "../src/bignumber.cpp"
 
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+
 #include <memory>
+#include <cassert>
 
 using namespace std;
 

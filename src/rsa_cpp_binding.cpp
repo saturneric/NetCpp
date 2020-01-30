@@ -19,7 +19,6 @@ void Net::RSAKeyChain::generateKeyPair() {
 void Net::RSAKeyChain::privateKeyDecrypt(string &data, const string &encrypted_data) {
     if(!this->if_prv_key) throw runtime_error("illegal call of privateKeyDecrypt");
     if(this->key_pair == nullptr) throw runtime_error("key pair is invalid");
-    assert(buffer_size > 0);
     if(encrypted_data.size() != buffer_size) throw runtime_error("encrypt data's size is abnormal");
 //    使用私钥解密
     int decrypted_size = -1;

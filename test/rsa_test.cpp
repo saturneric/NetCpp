@@ -10,7 +10,7 @@
 using namespace Net;
 using namespace std;
 
-GlobalTestEnv *_env;
+extern GlobalTestEnv *_env;
 
 TEST(RSATest, init_test_1) {
 
