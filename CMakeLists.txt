@@ -11,6 +11,8 @@ find_package(OpenSSL 1.1.1 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR} ${SQLiteCpp_INCLUDE_DIRS})
 
+enable_testing()
+
 add_subdirectory(src)
 
 add_subdirectory(test)

@@ -21,7 +21,8 @@ TEST(RSATest, init_test_1) {
 
 TEST(RSATest, generate_test_1) {
    env->rsa->generateKeyPair();
-   printTools::printInfo(to_string(env->rsa->getBufferSize()), string("Buffer Size"));
+   string data = std::to_string(env->rsa->getBufferSize());
+   printTools::printInfo(data, "Buffer Size");
 }
 
 TEST(RSATest, pub_encrypt_test_1) {

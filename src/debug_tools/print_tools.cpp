@@ -24,9 +24,9 @@ namespace Net {
             printf("\033[31m%s\n\033[0m", red_info.data());
         }
 
-        void printInfo(const string& info, string &tag) {
+        void printInfo(const string& info, const string& tag) {
             printf("[DEBUG INFO] %s ", info.data());
-            if(tag.size())
+            if(!tag.empty())
                 printf("{ %s }\n",tag.data());
         }
 

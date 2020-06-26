@@ -27,7 +27,7 @@ namespace Net {
 
         void printRed(string red_info);
 
-        void printInfo(const string& info, string tag = "");
+        void printInfo(const string& info, const string& tag = "");
 
         void printInfoBuffer(const string& info, const string& tag = "");
 
