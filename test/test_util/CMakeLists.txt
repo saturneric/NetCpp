@@ -1,5 +1,7 @@
 
-add_executable(testUtils main.cpp test_rsa.cpp)
+file(GLOB testSrc *.cpp)
+
+add_executable(testUtils ${testSrc})
 
 message(${GTEST_LIBS})
 
