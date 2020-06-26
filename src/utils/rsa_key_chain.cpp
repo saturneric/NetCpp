@@ -2,7 +2,10 @@
 // Created by Eric Saturn on 2019/12/10.
 //
 
-#include "rsa_cpp_binding.h"
+#include <stdexcept>
+#include "utils/rsa_key_chain.h"
+
+using std::runtime_error;
 
 void Net::RSAKeyChain::generateKeyPair() {
     BigNumber e;
@@ -56,6 +59,6 @@ bool Net::RSAKeyChain::checkKey() {
     if(!this->if_prv_key) throw runtime_error("illegal call of checkKey");
     if(this->key_pair == nullptr) throw runtime_error("key pair is invalid");
     int return_code = RSA_check_key(this->key_pair);
-    if(return_code == -1) throw runtime_error("error occur when rsa check key");
+    if(return_code == -1) throw runtime_error("printTools occur when rsa check key");
     else return return_code == 1;
 }

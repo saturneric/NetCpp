@@ -9,6 +9,10 @@ using std::string;
 using std::ifstream;
 using std::stringstream;
 
+/**
+ * The Generator of SHA256 Hex
+ * We can use it in an easy way.
+ */
 class SHA256Generator{
 public:
     SHA256Generator(string data){

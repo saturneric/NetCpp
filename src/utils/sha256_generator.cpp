@@ -1,6 +1,9 @@
 #include "type.h"
-#include "sha256_cpp_binding.h"
+#include "util/sha256_generator.h"
 
+/**
+ * Generate SHA256 Hex Code
+ */
 void SHA256Generator::generate() {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
