@@ -6,8 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(include/)
 include_directories(utils/)
 
-find_package(Boost           REQUIRED)
-find_package(SQLiteCpp       REQUIRED)
+find_package(Boost   REQUIRED)
 find_package(OpenSSL REQUIRED)
 
 message(STATUS SSL ${OPENSSL_LIBRARIES})
