@@ -15,7 +15,7 @@ using std::pair;
 //提示信息打印类函数
 namespace Net {
 
-    namespace printTools {
+    namespace PrintTools {
 
         using FormalItem = pair<string, string>;
 

@@ -32,6 +32,7 @@ public:
         if(!if_generate) generate();
         return this->sha256_data;
     }
+
 private:
     bool if_generate = false;
     string raw_data;

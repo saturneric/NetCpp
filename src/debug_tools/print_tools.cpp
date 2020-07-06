@@ -7,7 +7,7 @@
 using std::string;
 
 namespace Net {
-    namespace printTools {
+    namespace PrintTools {
         void printError(const string &error_info) {
             printf("\033[31mError: %s\033[0m\n", error_info.data());
         }

@@ -22,20 +22,20 @@ TEST(RSATest, init_test_1) {
 TEST(RSATest, generate_test_1) {
    env->rsa->generateKeyPair();
    string data = std::to_string(env->rsa->getBufferSize());
-   printTools::printInfo(data, "Buffer Size");
+   PrintTools::printInfo(data, "Buffer Size");
 }
 
 TEST(RSATest, pub_encrypt_test_1) {
     string encrypted_data;
     env->rsa->publicKeyEncrypt(env->rsa_test_data, encrypted_data);
-    printTools::printInfoBuffer(encrypted_data, "Encrypted Data");
+    PrintTools::printInfoBuffer(encrypted_data, "Encrypted Data");
     env->rsa_encrypt_data = encrypted_data;
 }
 
 TEST(RSATest, prv_decrypt_test_1){
     string data;
     env->rsa->privateKeyDecrypt(data, env->rsa_encrypt_data);
-    printTools::printInfo(data, "Decrypt Data");
+    PrintTools::printInfo(data, "Decrypt Data");
     ASSERT_EQ(data, env->rsa_test_data);
 }
 

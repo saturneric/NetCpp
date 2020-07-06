@@ -33,7 +33,7 @@ namespace Net {
         }
 
         void printInfo(){
-            printTools::printInfoFormal("RSAPubKey Info", {
+            PrintTools::printInfoFormal("RSAPubKey Info", {
                     {"n", this->n.getDataHex()},
                     {"e", this->e.getDataHex()}
             });
@@ -62,7 +62,7 @@ namespace Net {
         }
 
         void printInfo() const{
-            printTools::printInfoFormal("RSAPrvKey Info", {
+            PrintTools::printInfoFormal("RSAPrvKey Info", {
                 {"n", this->n.getDataHex()},
                 {"e", this->e.getDataHex()},
                 {"d", this->d.getDataHex()},
@@ -102,13 +102,16 @@ namespace Net {
             this->if_prv_key = true;
         }
 
+//        生成一对公私钥
         void generateKeyPair();
 
 //        检查私钥是否合法
         bool checkKey();
 
+//        公钥加密
         void publicKeyEncrypt(const string &data, string &encrypted_data);
 
+//        私钥解密
         void privateKeyDecrypt(string &data, const string& encrypted_data);
 
         uint32_t getBufferSize() const {
