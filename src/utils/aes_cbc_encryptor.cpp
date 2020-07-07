@@ -66,3 +66,12 @@ void Net::AESCBCEncryptor::aes_init(string &key_data) {
     EVP_CIPHER_CTX_init(e_ctx);
     EVP_EncryptInit_ex(e_ctx, EVP_aes_256_cbc(), nullptr, key, iv);
 }
+
+string Net::AESCBCEncryptor::getKeyData() const {
+    return key_data;
+}
+
+Net::AESCBCEncryptor::AESCBCEncryptor() {
+    generate_random_key_data();
+    aes_init(key_data);
+}

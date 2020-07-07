@@ -19,14 +19,9 @@ namespace Net {
     class AESCBCEncryptor {
     public:
 
-        AESCBCEncryptor() {
-            generate_random_key_data();
-            aes_init(key_data);
-        }
+        AESCBCEncryptor();
 
-        string getKeyData() const{
-            return key_data;
-        }
+        string getKeyData() const;
 
         void encrypt(const std::string &data, std::string &encrypted_data);
 
@@ -34,7 +29,9 @@ namespace Net {
 
     private:
         const int nrounds = 8;
+
         uint8_t key[32], iv[32];
+
         EVP_CIPHER_CTX *e_ctx = EVP_CIPHER_CTX_new();
 
         std::string key_data;

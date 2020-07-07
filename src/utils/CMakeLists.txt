@@ -1,3 +1,5 @@
-add_library(utils STATIC rsa_key_chain.cpp aes_cbc_encryptor.cpp random_generator.cpp)
+file(GLOB utilSrc *.cpp)
+
+add_library(utils STATIC ${utilSrc})
 
 target_link_libraries(utils debugTools ssl crypto)

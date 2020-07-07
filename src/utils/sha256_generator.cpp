@@ -1,10 +1,10 @@
 #include "type.h"
-#include "util/sha256_generator.h"
+#include "utils/sha256_generator.h"
 
 /**
  * Generate SHA256 Hex Code
  */
-void SHA256Generator::generate() {
+void Net::SHA256Generator::generate() {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
@@ -18,4 +18,24 @@ void SHA256Generator::generate() {
     }
     sha256_data = buffer.str();
     if_generate = true;
+}
+
+void Net::SHA256Generator::replace(string &str) {
+    this->raw_data = str;
+}
+
+string Net::SHA256Generator::getHex() {
+    if (!if_generate) generate();
+    return this->sha256_data;
+}
+
+Net::SHA256Generator::SHA256Generator(ifstream stream) {
+    while (stream.good()) {
+        stream >> raw_data;
+    }
+    stream.close();
+}
+
+Net::SHA256Generator::SHA256Generator(string data) {
+    this->raw_data = std::move(data);
 }
