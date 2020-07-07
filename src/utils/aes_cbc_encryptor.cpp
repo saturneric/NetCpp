@@ -10,7 +10,7 @@ void Net::AESCBCEncryptor::encrypt(const string &data, string &encrypted_data) {
 
     auto *encrypt_buffer = reinterpret_cast<uint8_t *>(malloc(c_len));
 
-    EVP_EncryptInit_ex(e_ctx, nullptr, nullptr, nullptr, nullptr);
+    EVP_EncryptInit_ex(e_ctx, EVP_aes_256_cbc(), nullptr, key, iv);
     EVP_EncryptUpdate(e_ctx, encrypt_buffer, &c_len,
                       reinterpret_cast<const unsigned char *>(data.data()), data.length());
     EVP_EncryptFinal_ex(e_ctx, encrypt_buffer + c_len, &f_len);
@@ -21,14 +21,14 @@ void Net::AESCBCEncryptor::encrypt(const string &data, string &encrypted_data) {
 
     encrypted_data.append(reinterpret_cast<const char *>(encrypt_buffer), len);
 
-    free(encrypt_buffer);
+    EVP_CIPHER_CTX_reset(e_ctx);
 }
 
 void Net::AESCBCEncryptor::decrypt(string &data, const string &encrypt_data) {
     int p_len = encrypt_data.length(), f_len = 0;
     auto *plain_buffer = static_cast<uint8_t *>(malloc(p_len));
 
-    EVP_DecryptInit_ex(e_ctx, nullptr, nullptr, nullptr, nullptr);
+    EVP_DecryptInit_ex(e_ctx, EVP_aes_256_cbc(), nullptr, key, iv);
     EVP_DecryptUpdate(e_ctx, plain_buffer, &p_len,
                       reinterpret_cast<const unsigned char *>(encrypt_data.data()), encrypt_data.length());
     EVP_DecryptFinal_ex(e_ctx, plain_buffer + p_len, &f_len);
@@ -39,7 +39,7 @@ void Net::AESCBCEncryptor::decrypt(string &data, const string &encrypt_data) {
 
     data.append(reinterpret_cast<const char *>(plain_buffer), len);
 
-    free(plain_buffer);
+    EVP_CIPHER_CTX_reset(e_ctx);
 }
 
 void Net::AESCBCEncryptor::generate_random_key_data() {
