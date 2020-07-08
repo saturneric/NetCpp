@@ -8,20 +8,16 @@ using std::string;
 
 namespace Net {
     namespace PrintTools {
-        void printError(const string &error_info) {
+        void debugPrintError(const string &error_info) {
             printf("\033[31mError: %s\033[0m\n", error_info.data());
         }
 
-        void printWarning(const string &warning_info) {
+        void debugPrintWarning(const string &warning_info) {
             printf("\033[33mWarning: %s\033[0m\n", warning_info.data());
         }
 
-        void printSuccess(const string &success_info) {
+        void debugPrintSuccess(const string &success_info) {
             printf("\033[32m%s\033[0m\n", success_info.data());
-        }
-
-        void printRed(const string &red_info) {
-            printf("\033[31m%s\n\033[0m", red_info.data());
         }
 
         void printInfo(const string& info, const string& tag) {

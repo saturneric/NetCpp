@@ -11,6 +11,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <queue>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -43,7 +44,7 @@ namespace Net {
         int fd;
         int status = 0;
         struct sockaddr_in server_addr;
-        std::stringstream recv_buff;
+        std::queue<uint8_t> recv_buff;
         boost::mutex buff_mutex;
         boost::thread *p_accept_manager_thread;
 
@@ -51,7 +52,7 @@ namespace Net {
 
         static void accept_manager(TCPServer *server);
 
-        static void accept(int fd, boost::mutex *buff_mutex, std::stringstream *recv_buff, const int *status);
+        static void accept(int fd, boost::mutex *buff_mutex, std::queue<uint8_t> *recv_buff, const int *status);
 
         void create_socket(int port);
     };

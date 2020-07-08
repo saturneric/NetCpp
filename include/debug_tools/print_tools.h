@@ -19,13 +19,11 @@ namespace Net {
 
         using FormalItem = pair<string, string>;
 
-        void printError(string error_info);
+        void debugPrintError(const string &error_info);
 
-        void printWarning(string warning_info);
+        void debugPrintWarning(const string &warning_info);
 
-        void printSuccess(string success_info);
-
-        void printRed(string red_info);
+        void debugPrintSuccess(const string &success_info);
 
         void printInfo(const string& info, const string& tag);
 
