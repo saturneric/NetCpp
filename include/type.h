@@ -51,8 +51,6 @@
 #include <rapidjson/stringbuffer.h>
 #include <rapidjson/prettywriter.h>
 
-#include <SQLiteCpp/SQLiteCpp.h>
-
 
 using std::string;
 using std::vector;

@@ -1,0 +1,1 @@
+add_library(debugTools STATIC print_tools.cpp)

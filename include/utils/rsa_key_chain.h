@@ -2,11 +2,11 @@
 // Created by Eric Saturn on 2019/12/10.
 //
 
-#ifndef NET_RSA_CPP_BINDING_H
-#define NET_RSA_CPP_BINDING_H
+#ifndef NET_RSA_KEY_CHAIN_H
+#define NET_RSA_KEY_CHAIN_H
 
-#include "error.h"
-#include "../src/bignumber.cpp"
+#include "debug_tools/print_tools.h"
+#include "../../src/bignumber.cpp"
 
 #include <openssl/rsa.h>
 #include <openssl/pem.h>
@@ -18,6 +18,10 @@
 using namespace std;
 
 namespace Net {
+
+    /**
+     * The Public Key For A RSA Key Chain
+     */
     class RSAPubKey{
     public:
         explicit RSAPubKey(const RSA *rsa){
@@ -29,7 +33,7 @@ namespace Net {
         }
 
         void printInfo(){
-            error::printInfoFormal("RSAPubKey Info", {
+            PrintTools::printInfoFormal("RSAPubKey Info", {
                     {"n", this->n.getDataHex()},
                     {"e", this->e.getDataHex()}
             });
@@ -39,6 +43,9 @@ namespace Net {
         BigNumber e;
     };
 
+    /**
+     * The Private Key For A RSA Key Chain
+     */
     class RSAPrvKey{
     public:
         explicit RSAPrvKey(const RSA *rsa) {
@@ -54,8 +61,8 @@ namespace Net {
             this->q.copyFrom(q);
         }
 
-        void printInfo(){
-            error::printInfoFormal("RSAPrvKey Info", {
+        void printInfo() const{
+            PrintTools::printInfoFormal("RSAPrvKey Info", {
                 {"n", this->n.getDataHex()},
                 {"e", this->e.getDataHex()},
                 {"d", this->d.getDataHex()},
@@ -95,13 +102,16 @@ namespace Net {
             this->if_prv_key = true;
         }
 
+//        生成一对公私钥
         void generateKeyPair();
 
 //        检查私钥是否合法
         bool checkKey();
 
+//        公钥加密
         void publicKeyEncrypt(const string &data, string &encrypted_data);
 
+//        私钥解密
         void privateKeyDecrypt(string &data, const string& encrypted_data);
 
         uint32_t getBufferSize() const {
@@ -134,4 +144,4 @@ namespace Net {
 }
 
 
-#endif //NET_RSA_CPP_BINDING_H
+#endif //NET_RSA_KEY_CHAIN_H

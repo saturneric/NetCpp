@@ -5,7 +5,7 @@
 #ifndef NET_ENV_H
 #define NET_ENV_H
 
-#include "rsa_cpp_binding.h"
+#include "utils/rsa_key_chain.h"
 
 class GlobalTestEnv : public testing::Environment{
 public:

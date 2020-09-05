@@ -11,7 +11,7 @@
 
 #include "type.h"
 #include "cpart.h"
-#include "sha256_cpp_binding.h"
+#include "util/sha256_generator.h"
 #include "sql.h"
 
 //计算模块管理对象间的依赖关系管理结构
