@@ -12,11 +12,12 @@
 using namespace Net;
 
 int main(int argc, char *argv[]){
+    PrintTools::debugPrintSuccess("All Started.");
     if(fork() == 0) {
         PrintTools::debugPrintSuccess("Child Started.");
         TCPClient client("127.0.0.1", 9048);
         for(int i = 0; i < 32; i++, usleep(1e4))
-            client.sendData("Hello");
+            client.sendData("Hello\n");
         PrintTools::debugPrintSuccess("Child Exited.");
     }
     else{

@@ -5,21 +5,12 @@
 #ifndef NET_TCP_SERVER_H
 #define NET_TCP_SERVER_H
 
-#include <stdexcept>
-#include <cstdlib>
-#include <cstring>
-#include <vector>
-#include <sstream>
-#include <string>
-#include <queue>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+// 基础依赖
+#include <project.h>
 
-#include <boost/thread/thread.hpp>
-#include <boost/thread/mutex.hpp>
-
+// 扩展依赖
+#include "tcp.h"
 
 namespace Net {
 
@@ -41,6 +32,7 @@ namespace Net {
         uint8_t readByte();
 
     private:
+
         int fd;
         int status = 0;
         struct sockaddr_in server_addr;

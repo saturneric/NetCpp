@@ -5,6 +5,8 @@
 #include "debug_tools/print_tools.h"
 #include "communicate/tcp_server.h"
 
+extern int errno;
+
 void Net::TCPServer::cycle() {
     boost::thread accept_manager_thread(TCPServer::accept_manager, this);
     this->p_accept_manager_thread = &accept_manager_thread;
@@ -17,7 +19,7 @@ void Net::TCPServer::accept_manager(Net::TCPServer *server) {
         int connect_fd = ::accept(server->fd, nullptr, nullptr);
         Net::PrintTools::debugPrintSuccess("New Connection.");
 
-        if(connect_fd == -1) throw std::runtime_error("accept tcp connection error");
+        if(connect_fd < 0) throw std::runtime_error(strerror(errno));
         else{
             boost::thread accept_thread(TCPServer::accept, connect_fd, &server->buff_mutex, &server->recv_buff, &server->status);
             accept_thread.detach();
@@ -45,24 +47,24 @@ void Net::TCPServer::accept(int fd, boost::mutex *buff_mutex, std::queue<uint8_t
 }
 
 void Net::TCPServer::create_socket(int port) {
-    fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if(!~fd) throw std::runtime_error("could not create socket file.");
+    if((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) throw std::runtime_error(strerror(errno));
 
     std::memset(&server_addr, 0, sizeof(struct sockaddr_in));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_addr.sin_port = htons(port);
+    this->server_addr.sin_family = AF_INET;
+    this->server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    this->server_addr.sin_port = htons(port);
 }
 
 Net::TCPServer::TCPServer(int port, int max_connection) {
 
+    // 创建 socket
     create_socket(port);
 
-    if(bind(fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) == -1)
-        throw std::runtime_error("bind port failed.");
+    if(bind(fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0)
+        throw std::runtime_error(strerror(errno));
 
-    if(listen(fd, max_connection) == -1)
-        throw std::runtime_error("listen socket failed.");
+    if(listen(fd, max_connection) < 0)
+        throw std::runtime_error(strerror(errno));
 
 
     cycle();

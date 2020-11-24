@@ -4,6 +4,8 @@
 
 #include "communicate/tcp_client.h"
 
+extern int errno;
+
 void Net::TCPClient::recv_data(Net::TCPClient *client) {
     u_char buff[1024];
     int len;
@@ -13,16 +15,18 @@ void Net::TCPClient::recv_data(Net::TCPClient *client) {
 }
 
 void Net::TCPClient::recv_cycle() {
-    boost::thread recv_thread(TCPClient::recv_data,
-                              this);
+    boost::thread recv_thread(TCPClient::recv_data,this);
     recv_thread.detach();
 }
 
 void Net::TCPClient::create_socket_and_connection() {
     if ((fd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0) {
-        throw std::runtime_error("create socket failed.");
+        throw std::runtime_error(strerror(errno));
     }
-    connect(fd, (struct sockaddr *) &client_addr, sizeof(client_addr));
+    if(connect(fd, (struct sockaddr *) &client_addr, sizeof(client_addr)) < 0){
+        throw std::runtime_error(strerror(errno));
+    }
+
 }
 
 int Net::TCPClient::sendData(const std::string &data) {

@@ -5,29 +5,28 @@
 #ifndef NET_TCP_CLIENT_H
 #define NET_TCP_CLIENT_H
 
-#include <cstring>
-#include <string>
-#include <stdexcept>
-#include <sstream>
+#include <project.h>
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-#include <boost/thread/thread.hpp>
+#include "tcp.h"
 
 namespace Net {
 
     class TCPClient {
     public:
+
         TCPClient(const std::string &ip, int port);
+
+        ~TCPClient(){
+            close(fd);
+        }
 
         int sendData(const std::string &data);
 
 
     private:
+
         int fd{};
+
         struct sockaddr_in client_addr{};
 
         std::stringstream recv_buff;
