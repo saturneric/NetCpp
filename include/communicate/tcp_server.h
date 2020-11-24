@@ -13,13 +13,21 @@
 
 namespace Net {
 
-/**
- * TCP Server using 
- *
-*/
+// 
+// Provide stable, reliable, easy-to-use, many-to-one TCP communication.
+// Requirement:
+//  1. It must be bound to an available port before use.
+// Features:
+//  1. Support communication concurrency based on multithreading.
+//
 class TCPServer {
 public:
-  TCPServer(int port, int max_connection);
+
+  // 
+  // Please provide an avaliable port(1~65535) first
+  // The default maximum connection limit is 1024
+  //
+  TCPServer(uint16_t port, uint32_t max_connection);
 
   ~TCPServer() {
     stop();
@@ -27,8 +35,8 @@ public:
   }
 
   void stop() {
-    if (p_accept_manager_thread != nullptr)
-      p_accept_manager_thread->interrupt();
+    if (p_conn_mgr_thrd != nullptr)
+      p_conn_mgr_thrd->interrupt();
     this->status = -1;
   }
 
@@ -40,7 +48,7 @@ private:
   struct sockaddr_in server_addr;
   std::queue<uint8_t> recv_buff;
   boost::mutex buff_mutex;
-  boost::thread *p_accept_manager_thread;
+  boost::thread *p_conn_mgr_thrd;
 
   void cycle();
 
@@ -49,6 +57,12 @@ private:
   static void accept(int fd, boost::mutex *buff_mutex,
                      std::queue<uint8_t> *recv_buff, const int *status);
 
+  // 
+  // Using the standard UNIX way to create a new socket
+  // Requirement:
+  //  the given  port need to be free for the binding
+  // Return:
+  //  a new and initialized socket which can be given to listen()
   void create_socket(int port);
 };
 

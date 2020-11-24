@@ -9,7 +9,7 @@ extern int errno;
 
 void Net::TCPServer::cycle() {
   boost::thread accept_manager_thread(TCPServer::connection_manager, this);
-  this->p_accept_manager_thread = &accept_manager_thread;
+  this->p_conn_mgr_thrd = &accept_manager_thread;
   accept_manager_thread.detach();
 }
 
@@ -59,19 +59,28 @@ void Net::TCPServer::create_socket(int port) {
   this->server_addr.sin_family = AF_INET;
   this->server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
   this->server_addr.sin_port = htons(port);
+
+  // Try binding the socket to the given port
+  if (bind(fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0){
+    // Close the socket created
+    close(fd);
+    throw std::runtime_error(strerror(errno));
+  }
+
 }
 
-Net::TCPServer::TCPServer(int port, int max_connection) {
+Net::TCPServer::TCPServer(uint16_t port, uint32_t max_connection=1024) {
 
-  // 创建 socket
+  // Create a new socket binding certain port
   create_socket(port);
 
-  if (bind(fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+  if (listen(fd, max_connection) < 0) {
+    // Close the socket created
+    close(fd);
     throw std::runtime_error(strerror(errno));
+  }
 
-  if (listen(fd, max_connection) < 0)
-    throw std::runtime_error(strerror(errno));
-
+  // Start running the engine cycle
   cycle();
 }
 
