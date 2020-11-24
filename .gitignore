@@ -40,6 +40,12 @@
 *.cbp
 *.marks
 
+# Vim
+*.swp
+
 # Project Files
 cmake-build-debug
 .idea
+.cache
+build
+.DS_Store

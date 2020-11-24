@@ -5,7 +5,6 @@
 #ifndef NET_TCP_SERVER_H
 #define NET_TCP_SERVER_H
 
-
 // 基础依赖
 #include <project.h>
 
@@ -14,41 +13,45 @@
 
 namespace Net {
 
-    class TCPServer {
-    public:
-        TCPServer(int port, int max_connection);
+/**
+ * TCP Server using 
+ *
+*/
+class TCPServer {
+public:
+  TCPServer(int port, int max_connection);
 
-        ~TCPServer(){
-            stop();
-            close(fd);
-        }
+  ~TCPServer() {
+    stop();
+    close(fd);
+  }
 
-        void stop(){
-            if(p_accept_manager_thread != nullptr)
-                p_accept_manager_thread->interrupt();
-            this->status = -1;
-        }
+  void stop() {
+    if (p_accept_manager_thread != nullptr)
+      p_accept_manager_thread->interrupt();
+    this->status = -1;
+  }
 
-        uint8_t readByte();
+  uint8_t readByte();
 
-    private:
+private:
+  int fd;
+  int status = 0;
+  struct sockaddr_in server_addr;
+  std::queue<uint8_t> recv_buff;
+  boost::mutex buff_mutex;
+  boost::thread *p_accept_manager_thread;
 
-        int fd;
-        int status = 0;
-        struct sockaddr_in server_addr;
-        std::queue<uint8_t> recv_buff;
-        boost::mutex buff_mutex;
-        boost::thread *p_accept_manager_thread;
+  void cycle();
 
-        void cycle();
+  static void connection_manager(TCPServer *server);
 
-        static void accept_manager(TCPServer *server);
+  static void accept(int fd, boost::mutex *buff_mutex,
+                     std::queue<uint8_t> *recv_buff, const int *status);
 
-        static void accept(int fd, boost::mutex *buff_mutex, std::queue<uint8_t> *recv_buff, const int *status);
+  void create_socket(int port);
+};
 
-        void create_socket(int port);
-    };
+} // namespace Net
 
-}
-
-#endif //NET_TCP_SERVER_H
+#endif // NET_TCP_SERVER_H

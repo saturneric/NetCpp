@@ -1,0 +1,67 @@
+[
+{
+  "directory": "/home/eric/NetCpp/build/src/utils",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/utils.dir/aes_cbc_encryptor.cpp.o -c /home/eric/NetCpp/src/utils/aes_cbc_encryptor.cpp",
+  "file": "/home/eric/NetCpp/src/utils/aes_cbc_encryptor.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/utils",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/utils.dir/random_generator.cpp.o -c /home/eric/NetCpp/src/utils/random_generator.cpp",
+  "file": "/home/eric/NetCpp/src/utils/random_generator.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/utils",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/utils.dir/rsa_key_chain.cpp.o -c /home/eric/NetCpp/src/utils/rsa_key_chain.cpp",
+  "file": "/home/eric/NetCpp/src/utils/rsa_key_chain.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/utils",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/utils.dir/sha256_generator.cpp.o -c /home/eric/NetCpp/src/utils/sha256_generator.cpp",
+  "file": "/home/eric/NetCpp/src/utils/sha256_generator.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/debug_tools",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/debugTools.dir/print_tools.cpp.o -c /home/eric/NetCpp/src/debug_tools/print_tools.cpp",
+  "file": "/home/eric/NetCpp/src/debug_tools/print_tools.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/communicate",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/commu.dir/tcp_client.cpp.o -c /home/eric/NetCpp/src/communicate/tcp_client.cpp",
+  "file": "/home/eric/NetCpp/src/communicate/tcp_client.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/communicate",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/commu.dir/tcp_server.cpp.o -c /home/eric/NetCpp/src/communicate/tcp_server.cpp",
+  "file": "/home/eric/NetCpp/src/communicate/tcp_server.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/src/communicate",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/commu.dir/tcp_session.cpp.o -c /home/eric/NetCpp/src/communicate/tcp_session.cpp",
+  "file": "/home/eric/NetCpp/src/communicate/tcp_session.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/test/test_util",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/testUtils.dir/main.cpp.o -c /home/eric/NetCpp/test/test_util/main.cpp",
+  "file": "/home/eric/NetCpp/test/test_util/main.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/test/test_util",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/testUtils.dir/test_aes.cpp.o -c /home/eric/NetCpp/test/test_util/test_aes.cpp",
+  "file": "/home/eric/NetCpp/test/test_util/test_aes.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/test/test_util",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/testUtils.dir/test_rsa.cpp.o -c /home/eric/NetCpp/test/test_util/test_rsa.cpp",
+  "file": "/home/eric/NetCpp/test/test_util/test_rsa.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/test/test_util",
+  "command": "/usr/bin/c++   -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/testUtils.dir/test_sha.cpp.o -c /home/eric/NetCpp/test/test_util/test_sha.cpp",
+  "file": "/home/eric/NetCpp/test/test_util/test_sha.cpp"
+},
+{
+  "directory": "/home/eric/NetCpp/build/test/test_commu",
+  "command": "/usr/bin/c++  -DDEBUG -I/home/eric/NetCpp/include -I/home/eric/NetCpp/utils    -std=gnu++14 -o CMakeFiles/testCommu.dir/main.cpp.o -c /home/eric/NetCpp/test/test_commu/main.cpp",
+  "file": "/home/eric/NetCpp/test/test_commu/main.cpp"
+}
+]
