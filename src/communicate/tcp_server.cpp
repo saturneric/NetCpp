@@ -4,6 +4,8 @@
 
 #include "communicate/tcp_server.h"
 #include "debug_tools/print_tools.h"
+#include <cstdio>
+#include <memory>
 
 extern int errno;
 
@@ -16,8 +18,13 @@ void Net::TCPServer::cycle() {
 void Net::TCPServer::connection_manager(Net::TCPServer *server) {
   Net::PrintTools::debugPrintSuccess("AcceptManager Started.");
   while (true) {
-    int connect_fd = ::accept(server->fd, nullptr, nullptr);
-    Net::PrintTools::debugPrintSuccess("New Connection.");
+    struct sockaddr_in cli;
+    socklen_t len = sizeof(cli);
+
+    int connect_fd = ::accept(server->fd, (struct sockaddr *)&cli, &len);
+    Net::PrintTools::debugPrintSuccess("Get new connection from IP %s Port %d.",
+                                       inet_ntoa(cli.sin_addr),
+                                       htons(cli.sin_port));
 
     if (connect_fd < 0)
       throw std::runtime_error(strerror(errno));
@@ -61,15 +68,14 @@ void Net::TCPServer::create_socket(int port) {
   this->server_addr.sin_port = htons(port);
 
   // Try binding the socket to the given port
-  if (bind(fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0){
+  if (bind(fd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
     // Close the socket created
     close(fd);
     throw std::runtime_error(strerror(errno));
   }
-
 }
 
-Net::TCPServer::TCPServer(uint16_t port, uint32_t max_connection=1024) {
+Net::TCPServer::TCPServer(uint16_t port, uint32_t max_connection = 1024) {
 
   // Create a new socket binding certain port
   create_socket(port);

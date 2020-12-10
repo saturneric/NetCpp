@@ -5,12 +5,15 @@
 #ifndef NET_PRINT_TOOLS_H
 #define NET_PRINT_TOOLS_H
 
+#include <stdarg.h>
 #include <string>
+#include <vector>
 #include <map>
 
 using std::string;
 using std::initializer_list;
 using std::pair;
+using std::vector;
 
 //提示信息打印类函数
 namespace Net {
@@ -19,15 +22,17 @@ namespace Net {
 
         using FormalItem = pair<string, string>;
 
-        void debugPrintError(const string &error_info);
+        void debugPrintError(const string error_info, ...);
 
-        void debugPrintWarning(const string &warning_info);
+        void debugPrintWarning(const string warning_info, ...);
 
-        void debugPrintSuccess(const string &success_info);
+        void debugPrintSuccess(const string success_info, ...);
 
         void printInfo(const string& info, const string& tag);
 
         void printInfoBuffer(const string& info, const string& tag);
+
+        void printInfoBuffer(const vector<char>& info, const string& tag);
 
         void printInfoFormal(const string& title, initializer_list<FormalItem> body);
     }

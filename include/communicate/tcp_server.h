@@ -6,12 +6,38 @@
 #define NET_TCP_SERVER_H
 
 // 基础依赖
+#include <boost/thread/pthread/mutex.hpp>
 #include <project.h>
 
 // 扩展依赖
 #include "tcp.h"
 
+using std::vector;
+
 namespace Net {
+
+class Message;
+
+class Connection {
+public:
+  Connection(int fd, struct sockaddr_in cli);  
+
+  const std::string getIP() const;
+
+  const int16_t getPort() const;
+
+  void sendMessage(const Message &msg) {
+  }
+
+  Message *recvMessage(uint32_t tid);
+
+private:
+  // socket fd
+  int fd;
+
+  // Information structure of this connection
+ struct sockaddr_in cli;
+};
 
 // 
 // Provide stable, reliable, easy-to-use, many-to-one TCP communication.

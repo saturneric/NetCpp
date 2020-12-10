@@ -20,7 +20,7 @@
 #include <sstream>
 
 // 数据结构
-#include <vector>
+#include <vector> 
 #include <string>
 #include <queue>
 

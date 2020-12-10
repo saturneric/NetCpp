@@ -10,7 +10,8 @@
 using namespace Net;
 
 TEST(SHA256Test, base_test_1){
-    SHA256Generator generator("Hello World.");
+    SHA256Generator generator;
+    generator.setRawData("Hello World.");
     generator.generate();
 
     PrintTools::printInfo(generator.getHex(), "SHA256 Hex");

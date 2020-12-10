@@ -8,10 +8,10 @@ void Net::SHA256Generator::generate() {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
     SHA256_Init(&sha256);
-    SHA256_Update(&sha256, raw_data.c_str(), raw_data.size());
+    SHA256_Update(&sha256, raw_data, raw_data_size);
     SHA256_Final(hash, &sha256);
     stringstream buffer;
-    char buf[2];
+    char buf[3];
     for(int i = 0; i < SHA256_DIGEST_LENGTH; ++i){
         sprintf(buf,"%02x",hash[i]);
         buffer << buf;
@@ -20,8 +20,16 @@ void Net::SHA256Generator::generate() {
     if_generate = true;
 }
 
-void Net::SHA256Generator::replace(string &str) {
-    this->raw_data = str;
+void Net::SHA256Generator::setRawData(const vector<char> &c_array) {
+  raw_data = &c_array[0];
+  raw_data_size = c_array.size();
+  if_generate = false;
+}
+
+void Net::SHA256Generator::setRawData(const string &str) {
+    raw_data = str.c_str();
+    raw_data_size = str.size();
+    if_generate = false;
 }
 
 string Net::SHA256Generator::getHex() {
@@ -29,13 +37,5 @@ string Net::SHA256Generator::getHex() {
     return this->sha256_data;
 }
 
-Net::SHA256Generator::SHA256Generator(ifstream stream) {
-    while (stream.good()) {
-        stream >> raw_data;
-    }
-    stream.close();
-}
-
-Net::SHA256Generator::SHA256Generator(string data) {
-    this->raw_data = std::move(data);
+Net::SHA256Generator::SHA256Generator() {
 }
