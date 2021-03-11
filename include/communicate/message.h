@@ -15,6 +15,7 @@ using std::queue;
 
 namespace Net {
 
+// the structure to store the option part of a message
 class Option {
 public:
   Option(const string &key, const string &value);
@@ -34,6 +35,7 @@ public:
   void updateValue(const string &value);
 
 private:
+  // the key is unique within a message
   shared_ptr<string> key;
   shared_ptr<string> value;
 };
@@ -105,30 +107,45 @@ private:
 
   ssize_t decode_tail(const vector<char> &raw_Data, size_t offset, Message &msg);
 
+  void calculate_options_hash(const vector<char> &raw_data, int32_t end_index, int16_t &sum_hash);
+
   SHA256Generator sign_gen;
 };
 
 class MessageParser {
 public:
-  
+ 
+  // send a received buffer to parse
   void parse(const void *buf, size_t size);
 
+  // Get a parsed message from the queue
   shared_ptr<Message> getMessage();
 
+  // Get the count of the parsed meaasge
   size_t getMessageCount();
 
 private:
+
+  // state recorder of a special part of a message
   int head_state = -5;
   int option_state = -4;
   ssize_t body_state = -1;
   int tail_state = -4;
+
+  // factory used to read data and form the message step by step
   MessageFactory factory;
+
+  // store the message parsed
   queue<shared_ptr<Message>> msgs;
+  // buffer to store the data give by 
   queue<char> buffer;
+  // buffer to temporarily store the data of the certain part related to the state of the parser
   vector<char> temp_buffer;
 
+  // temporarily record the message concentrated
   shared_ptr<Message> temp_msg; 
-
+  
+  // reset all state and refresh the parser
   void reset_state();
 
   void locate_head();

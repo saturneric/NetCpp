@@ -26,6 +26,11 @@ TEST(Message_Test, base_test_1) {
   mf.encodeMessage(msg, rd);
   PrintTools::printInfoBuffer(rd, "Message Raw Data");
 
+  for(auto &c : rd) {
+    printf("%c", c);
+  }
+  printf("\n");
+
   ASSERT_TRUE(mf.decodeMessage(rd, msg));
 
   ASSERT_EQ(msg.getTID(), 1);
@@ -54,8 +59,6 @@ TEST(MessageParser_Test, base_test_1) {
   mf.encodeMessage(msg, rd);
   MessageParser mp;
   mp.parse(rd.data(), rd.size());
-
-  printf("SIZE: %lu\n", rd.size());
 
   ASSERT_EQ(mp.getMessageCount(), 1);
 

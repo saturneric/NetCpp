@@ -2,6 +2,7 @@
 #include "communicate/message.h"
 
 #include <stdexcept>
+#include <stdio.h>
 
 namespace Net {
 
@@ -24,18 +25,21 @@ void MessageFactory::encode_head(const Message &msg, vector<char> &raw_data) {
 
   raw_data.push_back(' ');
 
+  // 协议版本
   const string s_version = std::to_string(msg.version);
 
   raw_data.insert(raw_data.end(), s_version.cbegin(), s_version.cend());
 
   raw_data.push_back(' ');
 
+  // 消息类型
   const string s_type = std::to_string(msg.type);
 
   raw_data.insert(raw_data.end(), s_type.cbegin(), s_type.cend());
 
   raw_data.push_back(' ');
 
+  // 会话ID
   const string s_tid = std::to_string(msg.tid);
 
   raw_data.insert(raw_data.end(), s_tid.cbegin(), s_tid.cend());
@@ -66,6 +70,16 @@ void MessageFactory::encode_options(const Message &msg,
     raw_data.push_back('\r');
     raw_data.push_back('\n');
   }
+
+  // 计算头部和配置部分的哈希值
+  int16_t sum_hash;
+  
+  calculate_options_hash(raw_data, raw_data.size() - 1, sum_hash);
+  const string sum_hash_str = std::to_string(sum_hash);
+  raw_data.insert(raw_data.end(), sum_hash_str.cbegin(), sum_hash_str.cend());
+
+  raw_data.push_back('\r');
+  raw_data.push_back('\n');
 
   raw_data.push_back('\r');
   raw_data.push_back('\n');
@@ -158,7 +172,25 @@ ssize_t MessageFactory::decode_options(const vector<char> &raw_data,
     msg.addOption(key.c_str(), value.c_str());
   }
 
+  int sum_hash_range = index - 2;
+
   --index;
+
+  string sum_hash_str;
+  while((c = raw_data[index++]) != '\r') {
+    sum_hash_str.push_back(c);
+  }
+
+  if(raw_data[index++] != '\n') {
+    return -1;
+  }
+
+  int16_t sum_hash = std::stoi(sum_hash_str);
+  int16_t sum_hash_check;
+
+  calculate_options_hash(raw_data, sum_hash_range, sum_hash_check);
+
+  if(sum_hash_check != sum_hash) return -1;
 
   if (raw_data[index++] != '\r' || raw_data[index++] != '\n')
     return -1;
@@ -198,6 +230,24 @@ ssize_t MessageFactory::decode_tail(const vector<char> &raw_data, size_t offset,
   }
 
   return index;
+}
+
+void MessageFactory::calculate_options_hash(const vector<char> &raw_data, int32_t end_index, int16_t &sum_hash) {
+
+  if(end_index > raw_data.size()) {
+    throw std::runtime_error("end index out of range");
+  }
+
+  sum_hash = 0;
+
+  int32_t index = 0;
+
+  for(auto &c : raw_data) {
+    sum_hash += static_cast<int16_t>(c);
+    sum_hash %= 65535;
+    if (index++ >= end_index) break;
+  }
+
 }
 
 bool MessageFactory::decodeMessage(const vector<char> &raw_data, Message &msg) {
@@ -251,4 +301,5 @@ bool MessageFactory::decodeMessageTail(const vector<char> &raw_data, Message &ms
   if(!~decode_tail(raw_data, 0, msg)) return false;
   return true;
 }
+
 } // namespace Net

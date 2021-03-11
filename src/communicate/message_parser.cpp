@@ -6,12 +6,16 @@ namespace Net {
 
 void MessageParser::parse(const void *buf, size_t size) {
 
+  // push all data in buff into queue named buffer
   const char *c_buf = (const char *)buf;
   for (int i = 0; i < size; i++) {
     buffer.push(c_buf[i]);
   }
 
+  // process the data byte by byte until the queue is empty
   while(!buffer.empty()) {
+
+    // if there is no message concentrated then create new message
     if (temp_msg == nullptr) {
       temp_msg = std::make_shared<Message>();
     }
@@ -26,9 +30,12 @@ void MessageParser::parse(const void *buf, size_t size) {
       locate_tail();
     }
 
+    // tail processing done
     if(!tail_state){
+      // release the message concentrated
       msgs.push(temp_msg);
       temp_msg = nullptr;
+      // reset the state of the parser
       reset_state();
     }
   }
@@ -91,6 +98,8 @@ void MessageParser::locate_option() {
         option_state++;
       else if(c == '\r')
         option_state = -1;
+      else if (c > 47 && c < 58)
+        option_state++;
       continue;
     }
     if(option_state == -3) {
@@ -219,8 +228,10 @@ void MessageParser::locate_tail() {
 
 void MessageParser::reset_state() {
   temp_buffer.clear();
+  // reset the message concentrated
   if(temp_msg != nullptr)
     temp_msg->clear();
+  // reset the state recorder
   head_state = -5;
   option_state = -4;
   body_state = -1;
